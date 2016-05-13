@@ -1,0 +1,1 @@
+python main.py data/basic.dat total --source "Mindy"
