@@ -1,1 +1,1 @@
-python main.py data/basic.dat total --source "Mindy"
+python main.py data/weighted.dat -w limited -s "Mindy" -l 4 -o output/test.mp4 -v

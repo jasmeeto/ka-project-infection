@@ -1,5 +1,8 @@
 import networkx as nx
+from networkx.drawing.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import numpy as np
 from user import User
 
 def create_graph(file_name, is_weighted=False):
@@ -20,4 +23,37 @@ def draw(g):
     sizes = [len(v) * 200 for v in g.nodes()]
     pos = nx.spring_layout(g, k=0.20, iterations=100)
     nx.draw(g, pos=pos, node_size=sizes, node_color=colors, font_size=10, with_labels=True)
+    plt.show()
+
+def animate(g, iterations, output_file, use_graphviz=False):
+
+    if len(iterations) < 1:
+        print "need iterations to animate"
+        return
+
+    fig = plt.figure()
+
+    if use_graphviz:
+        pos = graphviz_layout(g, prog='neato')
+    else:
+        pos = nx.spring_layout(g, k=0.20, iterations=100)
+
+    colors = ['R' if is_infected else 'G' for node, is_infected in iterations[0]]
+    sizes = [len(v) * 200 for v in g.nodes()]
+
+    def animate(i):
+        fig.clear()
+        colors = ['R' if is_infected else 'G' for node, is_infected in iterations[i]]
+        nx.draw(g, pos=pos, node_size=sizes, node_color=colors, font_size=10, with_labels=True)
+
+    ani = animation.FuncAnimation(fig, animate, np.arange(len(iterations)), interval=300)
+
+    if output_file:
+        if not output_file.endswith('.mp4'):
+            print 'Need to have an mp4 output_file' 
+        else: 
+            Writer = animation.writers['ffmpeg']
+            writer = Writer(fps=2, bitrate=1600)
+            ani.save(output_file, writer=writer)
+
     plt.show()

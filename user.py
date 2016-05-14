@@ -13,7 +13,7 @@ class User:
         return not(self.name == other.name)
 
     def __str__(self):
-        return self.name + ',' + str(id(self))
+        return self.name + ', ' + self.version
 
     def __repr__(self):
         return str(self)
