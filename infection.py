@@ -11,6 +11,8 @@ def total_infection(g, source=None):
     for node in g.nodes():
         infected[node] = False
 
+    g = g.to_undirected()
+
     if source:
         edges_generator = nx.bfs_edges(g, source)
     else:
@@ -62,11 +64,17 @@ def limited_infection(g, source=None, limit=5, threshold=50):
 
             #weights = [g[n][adj]['weight'] for adj in g.neighbors(n)]
             #avgweight = sum(weights, 0.0) / len(weights)
-            for adj in g.neighbors(n):
+            for adj in g.successors(n):
                 if g[n][adj]['weight'] > threshold:
+                    queue.append(adj)
+            for adj in g.predecessors(n):
+                if g[adj][n]['weight'] > threshold:
                     queue.append(adj)
 
         if not queue and count < limit:
+            queue.extend(g.successors(n))
+            queue.extend(g.predecessors(n))
+            
 
     import sys
     sys.stdout.flush()

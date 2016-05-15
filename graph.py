@@ -6,7 +6,7 @@ import numpy as np
 from user import User
 
 def create_graph(file_name, is_weighted=False):
-    g = nx.Graph()
+    g = nx.DiGraph()
     for line in open(file_name):
         linedata = line.split()
         n1 = linedata[0]
@@ -31,7 +31,7 @@ def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
         print "need iterations to animate"
         return
 
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10, 10))
 
     if use_graphviz:
         pos = graphviz_layout(g, prog='neato')
@@ -45,7 +45,7 @@ def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
         fig.clear()
         colors = ['R' if is_infected else 'G' for node, is_infected in iterations[i]]
         nx.draw(g, pos=pos, node_size=sizes, node_color=colors, font_size=10, with_labels=True)
-        # if is_weighted:
+        # if use_graphviz and is_weighted:
         #     labels = nx.get_edge_attributes(g,'weight')
         #     nx.draw_networkx_edge_labels(g,pos,edge_labels=labels)
 
