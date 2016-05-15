@@ -3,12 +3,19 @@ import argparse
 import graph
 import infection
 import os.path
+import random
+import networkx as nx
 from user import User
 from datetime import datetime
 
-def random_test():
-    filename = 'output/random-%s.dat' % datetime.now().strftime('%Y-%m-%d_%H%M')
-    print filename
+def random_test(num_users):
+    filename = 'data/gen/random-%s.dat' % datetime.now().strftime('%Y-%m-%d_%H%M')
+    graph = nx.gnp_random_graph(num_users, 0.10)
+    fileh = open(filename, 'w')
+    for n1, n2 in graph.edges():
+        weight = str(random.uniform(0,100))
+        fileh.write('{} {} {}\n'.format(str(n1), str(n2), weight))
+    fileh.close()
     return filename
 
 def main():
@@ -21,7 +28,7 @@ def main():
     parser.add_argument('-w', '--weighted', action='store_true', help="is the input weighted")
     parser.add_argument('-o', '--output', help="store to output (requires ffmpeg)")
     parser.add_argument('-g', '--graphviz', action='store_true', help="use graphviz to visualize (requires pygraphviz)")
-    parser.add_argument('-r', '--random', action='store_true', help="use random test (creates new file in data folder)")
+    parser.add_argument('-r', '--random', type=int, help="use random test, takes in num nodes as argument (creates new file in data folder)")
 
     args = parser.parse_args()
 
@@ -30,7 +37,8 @@ def main():
         exit(1)
 
     if args.random:
-        args.input_file = random_test()
+        args.input_file = random_test(args.random)
+        args.output = args.input_file.replace('.dat', '.mp4').replace('data', 'output')
 
     g = graph.create_graph(args.input_file, args.weighted)
     iterations = []

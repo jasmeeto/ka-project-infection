@@ -1,1 +1,1 @@
-python main.py data/weighted.dat -w limited -s "Mindy" -l 4 -o output/test.mp4 -v
+python main.py data/weighted.dat -w limited -l 5 -o output/test.mp4 -v -r 30

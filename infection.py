@@ -32,7 +32,7 @@ def total_infection(g, source=None):
     return iterations
 
 # need to implemement custom bfs for threshold
-def limited_infection(g, source=None, limit=5, threshold=2):
+def limited_infection(g, source=None, limit=5, threshold=50):
     if not source:
         source = pick_source(g)
 
@@ -65,6 +65,8 @@ def limited_infection(g, source=None, limit=5, threshold=2):
             for adj in g.neighbors(n):
                 if g[n][adj]['weight'] > threshold:
                     queue.append(adj)
+
+        if not queue and count < limit:
 
     import sys
     sys.stdout.flush()
