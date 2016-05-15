@@ -20,7 +20,7 @@ def main():
     parser.add_argument('-v', '--visualize', action='store_true', help="number to limit by")
     parser.add_argument('-w', '--weighted', action='store_true', help="is the input weighted")
     parser.add_argument('-o', '--output', help="store to output (requires ffmpeg)")
-    parser.add_argument('-g', '--use-graphviz', help="use graphviz to visualize (requires pygraphviz)")
+    parser.add_argument('-g', '--graphviz', action='store_true', help="use graphviz to visualize (requires pygraphviz)")
     parser.add_argument('-r', '--random', action='store_true', help="use random test (creates new file in data folder)")
 
     args = parser.parse_args()
@@ -49,7 +49,7 @@ def main():
             iterations = infection.total_infection(g)
 
     if args.visualize:
-        graph.animate(g, iterations, args.output)
+        graph.animate(g, iterations, args.output, args.graphviz, args.weighted)
 
 
 if __name__ == "__main__":

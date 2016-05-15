@@ -25,7 +25,7 @@ def draw(g):
     nx.draw(g, pos=pos, node_size=sizes, node_color=colors, font_size=10, with_labels=True)
     plt.show()
 
-def animate(g, iterations, output_file, use_graphviz=False):
+def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
 
     if len(iterations) < 1:
         print "need iterations to animate"
@@ -45,6 +45,9 @@ def animate(g, iterations, output_file, use_graphviz=False):
         fig.clear()
         colors = ['R' if is_infected else 'G' for node, is_infected in iterations[i]]
         nx.draw(g, pos=pos, node_size=sizes, node_color=colors, font_size=10, with_labels=True)
+        if is_weighted:
+            labels = nx.get_edge_attributes(g,'weight')
+            nx.draw_networkx_edge_labels(g,pos,edge_labels=labels)
 
     ani = animation.FuncAnimation(fig, animate, np.arange(len(iterations)), interval=300)
 
