@@ -102,7 +102,11 @@ Example Output (Source is `'Kevin'`, limit is 5, no threshold):
 
 From the above we can see that Kevin's children are given priority first and then his parents are considered.
 
-###Extensions
+###Further Investigations
 
+The priority queue algorthim could probably be fine tuned to branch out and consider less connected nodes first to try and contain the effect of the infection.
 
+Add more consideration in picking the initial node rather than just a random pick. Possibly pick a node that is less connected, again to better contain the effects of the infection.
+
+Try to analyse real world examples of graphs to get a better sense of the shape and distribution. I.e. are graphs generally a tree shape, do nodes generally have less coaches than students.
 
