@@ -52,7 +52,7 @@ def main():
         args.input_file = random_test(args.random[0], args.random[1])
         args.output = args.input_file.replace('.dat', '.mp4').replace('data', 'output')
 
-    if not os.path.isfile(args.input_file) and not r:
+    if not os.path.isfile(args.input_file) and not args.random:
         print("need to give valid input file")
         exit(1)
 
