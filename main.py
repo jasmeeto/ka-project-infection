@@ -36,15 +36,15 @@ def main():
     '''
     parser = argparse.ArgumentParser()
     parser.add_argument('type', help="total or limited")
-    parser.add_argument('-l', '--limit', type=int, help="number to limit by")
+    parser.add_argument('-l', '--limit', type=int, help="number to limit by for limited")
+    parser.add_argument('-t', '--threshold', type=float, help="threshold value for limited (defualts to 0)")
     parser.add_argument('-r', '--random', type=float, help="use random test, takes in num nodes and edge probability as argument (creates new file in data folder)", nargs=2)
-    parser.add_argument('-s', '--source', help="source name")
+    parser.add_argument('-s', '--source', help="source node name")
     parser.add_argument('-i', '--input_file', help="input file location")
     parser.add_argument('-w', '--weighted', action='store_true', help="is the input weighted")
-    parser.add_argument('-v', '--visualize', action='store_true', help="number to limit by")
-    parser.add_argument('-o', '--output', help="store to output (requires ffmpeg)")
+    parser.add_argument('-v', '--visualize', action='store_true', help="whether or not to visualize graph")
+    parser.add_argument('-o', '--output', help="store visualization to output (requires ffmpeg) - paired with -v option")
     parser.add_argument('-g', '--graphviz', action='store_true', help="use graphviz to visualize (requires pygraphviz)")
-    parser.add_argument('-t', '--threshold', type=float, help="threshold value for limited")
 
     args = parser.parse_args()
 
