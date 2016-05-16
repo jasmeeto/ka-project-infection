@@ -85,11 +85,13 @@ Example Output (`'Sal'` is source node):
 
 ####Limited Infection
 
-Limited infection is implemented as an extenstion the BFS of total taking a few heuristcs into account.
+Limited infection is implemented as an extenstion the BFS of total infection taking a few heuristcs into account.
 
 The first tentative requirement considered is `"Ideally we’d like a coach and all of their students to either have a feature or not."`
 
 To try to ensure this requirement we use a priority queue instead of a normal queue in our BFS and we give students (i.e. successor nodes) a higher priority than coaches (predecessors) to try and reach the given limit one classroom at a time. If the number of students of a node is less than or equal to the amount we have left before reaching the limit, then we give those students even higher priority to guarantee they are infected.
+
+You can follow the code for this [here](https://github.com/jasmeeto/ka-project-infection/blob/master/infection.py#L66)
 
 The second heuristic uses edge weighting to add thresholding to the algorithm. If edges do not meet the threshold during the bfs expansion, then the adjacent vertex is not added to the queue and thus not infected.
 
@@ -104,9 +106,9 @@ From the above we can see that Kevin's children are given priority first and the
 
 ###Further Investigations
 
-1.The priority queue algorthim could probably be fine tuned to branch out and consider less connected nodes first to try and contain the effect of the infection.
+1. The priority queue algorthim could probably be fine tuned to branch out and consider less connected nodes first to try and contain the effect of the infection.
 
-2.Add more consideration in picking the initial node rather than just a random pick. Possibly pick a node that is less connected, again to better contain the effects of the infection.
+2. Add more consideration in picking the initial node rather than just a random pick. Possibly pick a node that is less connected, again to better contain the effects of the infection.
 
-3.Try to analyse real world examples of graphs to get a better sense of the shape and distribution. I.e. are graphs generally a tree shape, do nodes generally have less coaches than students.
+3. Try to analyse real world examples of graphs to get a better sense of the shape and distribution. I.e. are graphs generally a tree shape, do nodes generally have less coaches than students.
 
