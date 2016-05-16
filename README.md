@@ -54,7 +54,7 @@ Generated inputs are stored in `data/gen/` and generated outputs are stored in `
 python main.py limited -l 6 -t 20 -v -g -r 30 0.10 -w
 ```
 The above runs the same as example before, except it uses limited infection, with a limit of 6 nodes and a threshold of 20
-These values are explained in section [Limited Infection](#limited-infection)
+These values are explained in section [Limited Infection](#limited-infection). In the random test generation we use a range of [0,100] to generate the weights.
 
 ```
 python main.py limited -l 4 -o output/limited.mp4 -v -g -w -i data/limited.dat -s 1
@@ -95,7 +95,7 @@ You can follow the code for this [here](https://github.com/jasmeeto/ka-project-i
 
 The second heuristic uses edge weighting to add thresholding to the algorithm. If edges do not meet the threshold during the bfs expansion, then the adjacent vertex is not added to the queue and thus not infected.
 
-Edge-weights represent the strength of the relationship between a teacher-student pair. The threshold essentially limits the algortihm to only choose relationships that are strong enough to infect.
+Edge-weights represent the strength of the relationship between a teacher-student pair. The threshold essentially limits the algortihm to only choose relationships that are strong enough to infect. 
 
 The are different schemes that can be used to assign weights but the the most useful is probably to use the time that the the teacher and student spend together. A higher time spent together represents a stronger relationship. This data would need to be gathered and stored for every edge before the infection is run.
 
