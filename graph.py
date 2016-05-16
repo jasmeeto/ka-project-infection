@@ -50,7 +50,7 @@ def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
         print("need iterations to animate")
         return
 
-    fig = plt.figure(figsize=(10, 6))
+    fig = plt.figure(figsize=(10, 7))
 
     if use_graphviz:
         pos = graphviz_layout(g, prog='neato')

@@ -14,5 +14,8 @@
 # run total test
 #python main.py total -i data/gen/random-2016-05-16_0310.dat -o output/test.mp4 -v -g -w -s 2
 
-# run cutsom total test
-python main.py total -i data/weighted.dat -o output/test.mp4 -v -g -w -s 'Sal'
+# run custom total test
+#python main.py total -i data/weighted.dat -o output/weighted.mp4 -v -g -w -s 'Sal'
+
+# run custom limited test
+python main.py limited -l 5 -i data/weighted.dat -o output/weighted.mp4 -v -g -w -s 'Kevin'

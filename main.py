@@ -44,7 +44,7 @@ def main():
     parser.add_argument('-w', '--weighted', action='store_true', help="is the input weighted")
     parser.add_argument('-v', '--visualize', action='store_true', help="whether or not to visualize graph")
     parser.add_argument('-o', '--output', help="store visualization to output (requires ffmpeg) - paired with -v option")
-    parser.add_argument('-g', '--graphviz', action='store_true', help="use graphviz to visualize (requires pygraphviz)")
+    parser.add_argument('-g', '--graphviz', action='store_true', help="(optional) use graphviz to visualize (requires pygraphviz)")
 
     args = parser.parse_args()
 
