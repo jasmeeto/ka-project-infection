@@ -59,11 +59,34 @@ These values are explained in section [Limited Infection](#limited-infection)
 ```
 python main.py limited -l 4 -o output/limited.mp4 -v -g -w -i data/limited.dat -s 1
 ```
-The above runs limited infection, with a limit of 4, with output file at output/limited.mp4, with visualization, using graphviz, weighted, with input file data/limited.dat and infection starting at node `1`
+The above runs limited infection, with a limit of 4, with output file at output/limited.mp4, with visualization, using graphviz, weighted, with input file data/limited.dat and infection starting at node '1'
+
+## Testing
+Follow examples in `test.sh` to run tests. Again it is relatively easy to create random cases and execute from command line so the need for a full test suite was not prevalent.
 
 ## Implementation
+
+#### Input
+The input is a directed graph with possibly weighted edges to be used in limited infection.
+
+The following represents a directed edge from node `4` to node `21` which semantically means that `4` coaches `21` and `21` is coached by `4`.
+
+![Directed](https://cloud.githubusercontent.com/assets/1384045/15299835/0d9ab7f6-1b74-11e6-83e0-9b8a7edb97d1.png)
 ####Total Infection
 
+Total infection essentially runs a BFS on the provided source node and infects the whole connected component containing that node. If a source node is not provided then it randomly picks a node using `np.random.choice(g.nodes())`.
+
+BFS is used to ensure the requirement that `"each teacher-student pair should be on the same version of the site"`
+
+In total infection the direction is not important since we infect the entire component anyway, so the graph is converted to an undirected graph and then run with the bfs python edge generator created by networkx using this function [here](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.algorithms.traversal.breadth_first_search.bfs_edges.html)
+
+Example Output (`'Sal'` is source node):
+![total](https://cloud.githubusercontent.com/assets/1384045/15300158/378c931c-1b75-11e6-94a3-81a7be08d206.PNG)
+
 ####Limited Infection
+
+Limited infection is implemented quite differently taking a few heuristics into account.
+
+The first heuristic considered is `"Ideally we’d like a coach and all of their students to either have a feature or not."`
 
 
