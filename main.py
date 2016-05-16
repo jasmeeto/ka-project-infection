@@ -9,6 +9,18 @@ from user import User
 from datetime import datetime
 
 def random_test(num_users, probability):
+    '''
+    Generates test graph and saves it to a file in the gen folder
+
+    params
+    ------
+    num_users: number of nodes/users to generate
+    probability: probability of generating edges
+
+    returns
+    -------
+    filename of random test
+    '''
     filename = 'data/gen/random-%s.dat' % datetime.now().strftime('%Y-%m-%d_%H%M')
     graph = nx.gnp_random_graph(int(num_users), probability)
     fileh = open(filename, 'w')
@@ -19,16 +31,19 @@ def random_test(num_users, probability):
     return filename
 
 def main():
+    '''
+    main function 
+    '''
     parser = argparse.ArgumentParser()
     parser.add_argument('type', help="total or limited")
-    parser.add_argument('-i', '--input_file', help="input file location")
-    parser.add_argument('-s', '--source', help="source name")
     parser.add_argument('-l', '--limit', type=int, help="number to limit by")
-    parser.add_argument('-v', '--visualize', action='store_true', help="number to limit by")
+    parser.add_argument('-r', '--random', type=float, help="use random test, takes in num nodes and edge probability as argument (creates new file in data folder)", nargs=2)
+    parser.add_argument('-s', '--source', help="source name")
+    parser.add_argument('-i', '--input_file', help="input file location")
     parser.add_argument('-w', '--weighted', action='store_true', help="is the input weighted")
+    parser.add_argument('-v', '--visualize', action='store_true', help="number to limit by")
     parser.add_argument('-o', '--output', help="store to output (requires ffmpeg)")
     parser.add_argument('-g', '--graphviz', action='store_true', help="use graphviz to visualize (requires pygraphviz)")
-    parser.add_argument('-r', '--random', type=float, help="use random test, takes in num nodes and edge probability as argument (creates new file in data folder)", nargs=2)
     parser.add_argument('-t', '--threshold', type=float, help="threshold value for limited")
 
     args = parser.parse_args()
@@ -51,12 +66,12 @@ def main():
         if args.threshold:
             threshold = args.threshold
         else:
-            threshold = 50
+            threshold = 0
         if args.source: 
             iterations = infection.limited_infection(g, args.source, args.limit, threshold)
         else: 
             iterations = infection.limited_infection(g, limit=args.limit, threshold=threshold)
-    else: ##argtype total or anything
+    else: #arg.type ==  total or anything
         if args.source: 
             iterations = infection.total_infection(g, args.source)
         else: 

@@ -5,7 +5,21 @@ import matplotlib.animation as animation
 import numpy as np
 from user import User
 
+
 def create_graph(file_name, is_weighted=False):
+    '''
+    Creates graph from file
+
+    params
+    ------
+    file_name: file to load
+    is_weighted: whether or not the graph has weighting info
+
+    returns
+    -------
+    NetworkX directed graph object (DiGraph)
+    '''
+
     g = nx.DiGraph()
     for line in open(file_name):
         linedata = line.split()
@@ -18,20 +32,25 @@ def create_graph(file_name, is_weighted=False):
 
     return g
 
-def draw(g):
-    colors = ['R' if node[1]['data'].version == 'new' else 'G' for node in g.nodes(data=True)]
-    sizes = [len(v) * 200 for v in g.nodes()]
-    pos = nx.spring_layout(g, k=0.20, iterations=100)
-    nx.draw(g, pos=pos, node_size=sizes, node_color=colors, font_size=10, with_labels=True)
-    plt.show()
-
 def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
+    '''
+    Animates progression of infection algorithm
+
+    params
+    ------
+    g: input graph
+    iterations: list of state at each iteration of the algorithm
+    output_file: file to write animation
+    use_graphviz: should use graphviz?
+    is_weighted: is a weighted graph
+
+    '''
 
     if len(iterations) < 1:
         print "need iterations to animate"
         return
 
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(10, 6))
 
     if use_graphviz:
         pos = graphviz_layout(g, prog='neato')
@@ -45,6 +64,8 @@ def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
         fig.clear()
         colors = ['R' if is_infected else 'G' for node, is_infected in iterations[i]]
         nx.draw(g, pos=pos, node_size=sizes, node_color=colors, font_size=10, with_labels=True)
+        # uncomment if weights should be shown on edges
+        # looks ugly for large graphs
         # if use_graphviz and is_weighted:
         #     labels = nx.get_edge_attributes(g,'weight')
         #     nx.draw_networkx_edge_labels(g,pos,edge_labels=labels)
