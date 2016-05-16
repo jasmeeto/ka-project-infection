@@ -47,7 +47,7 @@ def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
     '''
 
     if len(iterations) < 1:
-        print "need iterations to animate"
+        print("need iterations to animate")
         return
 
     fig = plt.figure(figsize=(10, 6))
@@ -74,7 +74,7 @@ def animate(g, iterations, output_file, use_graphviz=False, is_weighted=False):
 
     if output_file:
         if not output_file.endswith('.mp4'):
-            print 'Need to have an mp4 output_file' 
+            print('Need to have an mp4 output_file')
         else: 
             Writer = animation.writers['ffmpeg']
             writer = Writer(fps=2, bitrate=1600)

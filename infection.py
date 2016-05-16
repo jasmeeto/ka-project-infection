@@ -56,7 +56,7 @@ def total_infection(g, source=None):
     iterations.append(list(infected.items()))
 
     for n1, n2 in edges_generator:
-        print n1, n2
+        print(n1, n2)
         g.node[n2]['data'].version = 'new'
         infected[n2] = True
         iterations.append(list(infected.items()))
@@ -102,7 +102,7 @@ def limited_infection(g, source=None, limit=5, threshold=0):
 
         # pop node from priority queue of nodes
         p, n = queue.pop_smallest()
-        print (p, n)
+        print(p, n)
         user = g.node[n]['data'] 
 
         if n not in visited:

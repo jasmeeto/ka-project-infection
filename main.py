@@ -53,7 +53,7 @@ def main():
         args.output = args.input_file.replace('.dat', '.mp4').replace('data', 'output')
 
     if not os.path.isfile(args.input_file) and not r:
-        print "need to give valid input file"
+        print("need to give valid input file")
         exit(1)
 
 
@@ -61,7 +61,7 @@ def main():
     iterations = []
     if args.type == "limited":
         if not args.limit:
-            print "need to give valid limit for 'limited' option"
+            print("need to give valid limit for 'limited' option")
             exit(1)
         if args.threshold:
             threshold = args.threshold
