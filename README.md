@@ -53,7 +53,7 @@ Generated inputs are stored in `data/gen/` and generated outputs are stored in `
 ```
 python main.py limited -l 6 -t 20 -v -g -r 30 0.10 -w
 ```
-The above runs the same as example befoe, except it uses limited infection, with a limit of 6 nodes and a threshold of 20
+The above runs the same as example before, except it uses limited infection, with a limit of 6 nodes and a threshold of 20
 These values are explained in section [Limited Infection](#limited-infection)
 
 ```
@@ -62,7 +62,7 @@ python main.py limited -l 4 -o output/limited.mp4 -v -g -w -i data/limited.dat -
 The above runs limited infection, with a limit of 4, with output file at output/limited.mp4, with visualization, using graphviz, weighted, with input file data/limited.dat and infection starting at node '1'
 
 ## Testing
-Follow examples in `test.sh` to run tests. Again it is relatively easy to create random cases and execute from command line so the need for a full test suite was not prevalent.
+Follow examples in `test.sh` to run tests. It is relatively easy to create random cases and execute from command line so the need for a full test suite was not prevalent.
 
 ## Implementation
 
@@ -76,17 +76,33 @@ The following represents a directed edge from node `4` to node `21` which semant
 
 Total infection essentially runs a BFS on the provided source node and infects the whole connected component containing that node. If a source node is not provided then it randomly picks a node using `np.random.choice(g.nodes())`.
 
-BFS is used to ensure the requirement that `"each teacher-student pair should be on the same version of the site"`
+DFS could be used here as well but BFS is used to better represent the requirement that `"each teacher-student pair should be on the same version of the site"`
 
 In total infection the direction is not important since we infect the entire component anyway, so the graph is converted to an undirected graph and then run with the bfs python edge generator created by networkx using this function [here](https://networkx.github.io/documentation/networkx-1.10/reference/generated/networkx.algorithms.traversal.breadth_first_search.bfs_edges.html)
 
 Example Output (`'Sal'` is source node):
-![total](https://cloud.githubusercontent.com/assets/1384045/15300158/378c931c-1b75-11e6-94a3-81a7be08d206.PNG)
+![total](https://cloud.githubusercontent.com/assets/1384045/15302382/b18be964-1b80-11e6-8b6d-e3c856f254e5.gif)
 
 ####Limited Infection
 
-Limited infection is implemented quite differently taking a few heuristics into account.
+Limited infection is implemented as an extenstion the BFS of total taking a few heuristcs into account.
 
-The first heuristic considered is `"Ideally we’d like a coach and all of their students to either have a feature or not."`
+The first tentative requirement considered is `"Ideally we’d like a coach and all of their students to either have a feature or not."`
+
+To try to ensure this requirement we use a priority queue instead of a normal queue in our BFS and we give students (i.e. successor nodes) a higher priority than coaches (predecessors) to try and reach the given limit one classroom at a time. If the number of students of a node is less than or equal to the amount we have left before reaching the limit, then we give those students even higher priority to guarantee they are infected.
+
+The second heuristic uses edge weighting to add thresholding to the algorithm. If edges do not meet the threshold during the bfs expansion, then the adjacent vertex is not added to the queue and thus not infected.
+
+Edge-weights represent the strength of the relationship between a teacher-student pair. The threshold essentially limits the algortihm to only choose relationships that are strong enough to infect.
+
+The are different schemes that can be used to assign weights but the the most useful is probably to use the time that the the teacher and student spend together. A higher time spent together represents a stronger relationship. This data would need to be gathered and stored for every edge before the infection is run.
+
+Example Output (Source is `'Kevin'`, limit is 5, no threshold):
+![limited](https://cloud.githubusercontent.com/assets/1384045/15302613/d74ccadc-1b81-11e6-8bdd-2668c2ca570d.gif)
+
+From the above we can see that Kevin's children are given priority first and then his parents are considered.
+
+###Extensions
+
 
 
