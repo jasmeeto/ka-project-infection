@@ -8,9 +8,9 @@ import networkx as nx
 from user import User
 from datetime import datetime
 
-def random_test(num_users):
+def random_test(num_users, probability):
     filename = 'data/gen/random-%s.dat' % datetime.now().strftime('%Y-%m-%d_%H%M')
-    graph = nx.gnp_random_graph(num_users, 0.10)
+    graph = nx.gnp_random_graph(int(num_users), probability)
     fileh = open(filename, 'w')
     for n1, n2 in graph.edges():
         weight = str(random.randint(0,100))
@@ -28,13 +28,13 @@ def main():
     parser.add_argument('-w', '--weighted', action='store_true', help="is the input weighted")
     parser.add_argument('-o', '--output', help="store to output (requires ffmpeg)")
     parser.add_argument('-g', '--graphviz', action='store_true', help="use graphviz to visualize (requires pygraphviz)")
-    parser.add_argument('-r', '--random', type=int, help="use random test, takes in num nodes as argument (creates new file in data folder)")
+    parser.add_argument('-r', '--random', type=float, help="use random test, takes in num nodes and edge probability as argument (creates new file in data folder)", nargs=2)
     parser.add_argument('-t', '--threshold', type=float, help="threshold value for limited")
 
     args = parser.parse_args()
 
     if args.random:
-        args.input_file = random_test(args.random)
+        args.input_file = random_test(args.random[0], args.random[1])
         args.output = args.input_file.replace('.dat', '.mp4').replace('data', 'output')
 
     if not os.path.isfile(args.input_file) and not r:

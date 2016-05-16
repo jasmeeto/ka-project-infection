@@ -1,10 +1,10 @@
 import networkx as nx
+import numpy as np
 from collections import deque, OrderedDict
-
+from pqueue import PriorityQueue
 
 def pick_source(g):
-    # TODO choose source with centrality
-    return g.nodes()[0]
+    return np.random.choice(g.nodes())
 
 def total_infection(g, source=None):
     infected = OrderedDict()
@@ -46,34 +46,47 @@ def limited_infection(g, source=None, limit=5, threshold=50):
 
     neighbors = g.neighbors_iter
     visited = set()
-    queue = deque([source])
+    # queue = deque([source])
+    queue = PriorityQueue()
+    queue.add(source, 1)
     count=0
-    while queue:
+    print limit
+    while not queue.is_empty():
         if count >= limit:
             break
-        n = queue.popleft()
+        tup = queue.pop_smallest()
+        print tup
+        p, n = tup
         user = g.node[n]['data'] 
-        print user
         if n not in visited:
-            print 'infecting...' + str(user)
+            #print 'infecting...' + str(user)
             user.version = 'new'
             infected[n] = True
             iterations.append(list(infected.items()))
             count+=1
             visited.add(n)
 
-            #weights = [g[n][adj]['weight'] for adj in g.neighbors(n)]
-            #avgweight = sum(weights, 0.0) / len(weights)
-            for adj in g.successors(n):
-                if g[n][adj]['weight'] > threshold:
-                    queue.append(adj)
-            for adj in g.predecessors(n):
-                if g[adj][n]['weight'] > threshold:
-                    queue.append(adj)
+            # weights = [g[n][adj]['weight'] for adj in g.neighbors(n)]
+            # avgweight = sum(weights, 0.0) / len(weights)
+            suc = [adj for adj in g.successors(n) if adj not in visited]
+            pre = [adj for adj in g.predecessors(n) if adj not in visited]
+            print len(suc), n
+            if suc and len(suc) <= (limit - count - queue.size(1)):
+                for adj in suc:
+                    queue.add(adj, 1)
+                    print 'putting' + str((1,adj))
+            for adj in pre:
+                queue.add(adj, 2)
+                print 'putting' + str((2,adj))
 
-        if not queue and count < limit:
-            queue.extend(g.successors(n))
-            queue.extend(g.predecessors(n))
+            if queue.is_empty():
+                for adj in suc:
+                    queue.add(adj, 3)
+                for adj in pre:
+                    queue.add(adj, 3)
+
+
+
             
 
     import sys
