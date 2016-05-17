@@ -7,6 +7,7 @@
 2. `networkx` (install with `pip install networkx`)
 3. `matplotlib` (install with `pip install matplotlib`)
 4. `pygraphviz` and `graphviz` (optional - results in better visualizations) 
+5. `ffmpeg` (optional) for storing visualizations to mp4
 
 ### Usage
 
