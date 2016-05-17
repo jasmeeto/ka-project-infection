@@ -91,13 +91,13 @@ The first tentative requirement considered is `"Ideally we’d like a coach and 
 
 To try to ensure this requirement we use a priority queue instead of a normal queue in our BFS and we give students (i.e. successor nodes) a higher priority than coaches (predecessors) to try and reach the given limit one classroom at a time. If the number of students of a node is less than or equal to the amount we have left before reaching the limit, then we give those students even higher priority to guarantee they are infected.
 
-You can follow the code for this [here](https://github.com/jasmeeto/ka-project-infection/blob/master/infection.py#L66)
+You can follow the code for this [here](https://github.com/jasmeeto/ka-project-infection/blob/master/infection.py#L66).
 
 The second heuristic uses edge weighting to add thresholding to the algorithm. If edges do not meet the threshold during the bfs expansion, then the adjacent vertex is not added to the queue and thus not infected.
 
 Edge-weights represent the strength of the relationship between a teacher-student pair. The threshold essentially limits the algortihm to only choose relationships that are strong enough to infect. 
 
-The are different schemes that can be used to assign weights but the the most useful is probably to use the time that the the teacher and student spend together. A higher time spent together represents a stronger relationship. This data would need to be gathered and stored for every edge before the infection is run.
+There are different schemes that can be used to assign weights but the the most useful is probably to use the time that the the teacher and student spend together. A higher time spent together represents a stronger relationship. This data would need to be gathered and stored for every edge before the infection is run.
 
 Example Output (Source is `'Kevin'`, limit is 5, no threshold):
 ![limited](https://cloud.githubusercontent.com/assets/1384045/15302613/d74ccadc-1b81-11e6-8bdd-2668c2ca570d.gif)
